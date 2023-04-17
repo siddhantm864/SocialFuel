@@ -11,23 +11,23 @@ router.post("/register", async (req, res) => {
       // hasing password throgh bycrypt
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
-      
+
       // create new 
       const newUser = new User({
          username: req.body.username,
          email: req.body.email,
          password: hashedPassword,
-         desc:req.body.desc,
-         from:req.body.from,
-         city:req.body.city
+         desc: req.body.desc,
+         from: req.body.from,
+         city: req.body.city
       });
 
       // save user and return resonse
       const user = await newUser.save();
-      console.log("hi",user)
+      console.log("hi", user)
       res.status(200).json(user);
    } catch (err) {
-      res.status(500).json(err);         
+      res.status(500).json(err);
       // console.log(err)
    }
 })
@@ -41,7 +41,7 @@ router.post("/login", async (req, res) => {
       const validPassword = await bcrypt.compare(req.body.password, user.password)
       !validPassword && res.status(400).json("wrong password")
 
-      res.status(200).json(user)      
+      res.status(200).json(user)
    } catch (err) {
       res.status(500).json(err);
 

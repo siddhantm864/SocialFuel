@@ -1,15 +1,38 @@
 import "./topbar.css"
-import { Search, Person, Chat, Notifications, } from "@mui/icons-material"
-import { useContext } from "react"
-import { Link } from "react-router-dom"
+import { Search, Person, Chat, Notifications, Logout, } from "@mui/icons-material"
+import { useContext, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
+import { Button } from "@mui/material"
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
-// import SearchIcon from '@mui/icons-material/Search';
 
 
 export default function Topbar() {
     const { user } = useContext(AuthContext)
     const PF = process.env.REACT_APP_PUBLIC_FOLDER
+    const handleLogout = () => {
+        confirmAlert({
+            title: 'Log Out?',
+            message: 'Are you sure want to log out?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        localStorage.clear();
+                        window.location.reload();
+                    },
+                    style: { background: "green" }
+
+                },
+                {
+                    label: 'No',
+                    style: { background: "#d00101" }
+                }
+            ]
+        });
+    }
     return (
         <div className="topbarContainer">
             <div className="topbarLeft">
@@ -25,8 +48,12 @@ export default function Topbar() {
             </div>
             <div className="topbarRight">
                 <div className="topbarLinks">
-                    <span className="topbarLink">HomePage</span>
-                    <span className="topbarLink">Timeline</span>
+                    <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+                        <span className="topbarLink">HomePage</span>
+                    </Link>
+                    <Link to={`/profile/${user.username}`} style={{ textDecoration: "none", color: "white" }} >
+                        <span className="topbarLink">Timeline</span>
+                    </Link>
                 </div>
                 <div className="topbarIcons">
                     <div className="topbarIconItem">
@@ -41,11 +68,13 @@ export default function Topbar() {
                         <Notifications />
                         <span className="topbarIconbadge">3</span>
                     </div>
-
+                    <div >
+                        <Button onClick={handleLogout} style={{ color: "white" }} ><Logout /></Button>
+                    </div>
                 </div>
                 <div>
                     <Link to={`/profile/${user.username}`} >
-                    <img src={user.profilePicture ? PF + user.profilePicture : PF + "person/noAvatar.png"} alt="" className="topbarImg" />
+                        <img src={user.profilePicture ? PF + user.profilePicture : PF + "person/noAvatar.png"} alt="" className="topbarImg" />
                     </Link>
                 </div>
             </div>

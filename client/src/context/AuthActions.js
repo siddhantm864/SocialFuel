@@ -4,10 +4,10 @@ export const LoginStart=(userCredentials)=>({
 
 export const LoginSuccess=(user)=>({
     type:"LOGIN_SUCCESS",
-    payload:user,
+    payload:user,    
 })
 
-export const LoginFailure=(error)=>({
+export const LoginFailure=()=>({
     type:"LOGIN_FAILURE",
     // payload:error,
 })

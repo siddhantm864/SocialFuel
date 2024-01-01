@@ -18,6 +18,10 @@ mongoose.connect(
   process.env.MONGO_URL,
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => {
+
+    app.listen(8800, () => {
+      console.log("Backend server is running!");
+    });
     console.log("Connected to MongoDB");
   }
 );
@@ -59,6 +63,3 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 
-app.listen(8800, () => {
-  console.log("Backend server is running!");
-});

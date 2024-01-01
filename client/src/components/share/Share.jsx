@@ -27,7 +27,7 @@ export default function Share() {
       newPost.img = fileName;
       // console.log(newPost);
       try {
-        const resp = axios.post("http://localhost:8800/api/posts/upload", data);
+        const resp = axios.post("https://social-fuel-server.vercel.app/api/posts/upload", data);
         // window.location.reload();
       } catch (err) {
         console.log(err)

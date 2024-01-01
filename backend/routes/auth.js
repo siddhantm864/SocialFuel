@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 
 // REGISTER
 router.post("/register", async (req, res) => {
-   // console.log("hi",req.body)
+   console.log("user",req.body)
    try {
       // hasing password throgh bycrypt
       const salt = await bcrypt.genSalt(10);
@@ -28,7 +28,7 @@ router.post("/register", async (req, res) => {
       res.status(200).json(user);
    } catch (err) {
       res.status(500).json(err);
-      // console.log(err)
+      console.log(err)
    }
 })
 

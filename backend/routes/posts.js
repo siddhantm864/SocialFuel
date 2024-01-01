@@ -1,7 +1,16 @@
 const cors = require('cors')
 const Post = require("../models/Post");
 const User = require("../models/User");
+const getUri = require('../middleware/dataUri')
+const uploadOnCloudinary = require('../middleware/clodinary')
+const singleUpload = require('../middleware/multer');
+const DataUriParser = require('datauri/parser.js')
+const path = require('path')
+
 // router.use(cors())
+const multer = require('multer');
+const { error } = require('console');
+const upload = multer({ storage: multer.memoryStorage() });
 const router = require("express").Router();
 
 //  router.get("/",(req,res)=>{
@@ -9,15 +18,44 @@ const router = require("express").Router();
 //  })
 
 // create a post
-router.post("/", async (req, res) => {
-    const newPost = new Post(req.body);
+// router.post("/", async (req, res) => {
+//     console.log(req.body);
+//     const newPost = new Post(req.body);
+//     try {
+//         const savedPost = await newPost.save();
+//         res.status(200).json(savedPost);
+//     } catch (err) {
+//         res.status(500).json(err)
+//     }
+// });
+
+router.route('/upload').post(upload.single('file'), async (req, res) => {
     try {
-        const savedPost = await newPost.save();
-        res.status(200).json(savedPost);
-    } catch (err) {
-        res.status(500).json(err)
+        const { userId, desc } = req.body;
+
+        const { file } = req;
+        const parser = new DataUriParser();
+        const exactName = new DataUriParser(file.originalname).toString();
+        const fileUrl = parser.format(exactName, file.buffer);
+        const imageResp = await uploadOnCloudinary(fileUrl.content);
+        const newPost = new Post({
+            userId,
+            desc,
+            img: imageResp.url
+        })
+
+        const data = await newPost.save();
+        console.log(data)
+        if (!data) {
+            throw new error("problem in Upload");
+        }
+        res.status(200, data.data, "Post Created Successfully");
+    } catch (error) {
+        console.log(error)
     }
-});
+
+})
+
 
 // update a post
 router.put("/:id", async (req, res) => {

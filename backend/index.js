@@ -11,8 +11,9 @@ const postRoute = require("./routes/posts");
 const router = express.Router();
 const path = require("path");
 
+const cors = require('cors')
 dotenv.config();
-
+app.use(cors())
 mongoose.connect(
   process.env.MONGO_URL,
   { useNewUrlParser: true, useUnifiedTopology: true },
@@ -37,13 +38,22 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-app.post("/api/upload", upload.single("file"), (req, res) => {
-  try {
-    return res.status(200).json("File uploded successfully");
-  } catch (error) {
-    console.error(error);
-  }
-});
+
+
+// app.post("/api/upload", upload.single("file"), (req, res) => {
+//   try {
+//     return res.status(200).json("File uploded successfully");
+//   } catch (error) {
+//     console.error(error);
+//   }
+// });
+
+// app.post("/api/upload", singleUpload, async (req, res) => {
+
+//   console.log(req.body);
+
+//   res.send("hiii")
+// });
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);

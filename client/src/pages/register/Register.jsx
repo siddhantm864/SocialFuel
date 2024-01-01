@@ -11,8 +11,31 @@ export default function Register() {
   const passwordAgain = useRef();
   const history = useNavigate();
 
+  // const handleClick = async (e) => {
+  //   e.prevetnDefault();
+  //   if (passwordAgain.current.value !== password.current.value) {
+  //     passwordAgain.current.setCustomValidity("Passwords don't match!");
+  //   } else {
+  //     const user = {
+  //       username: username.current.value,
+  //       email: email.current.value,
+  //       password: password.current.value,
+  //     };
+  //     try {
+  //       const resp = await axios.post("/auth/register", user);
+  //       if (resp.data) {
+  //         localStorage.setItem("user", resp.data);
+
+  //         history("/login");
+  //       }
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  // };
   const handleClick = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Fix the typo here
+
     if (passwordAgain.current.value !== password.current.value) {
       passwordAgain.current.setCustomValidity("Passwords don't match!");
     } else {
@@ -22,8 +45,11 @@ export default function Register() {
         password: password.current.value,
       };
       try {
-        await axios.post("/auth/register", user);
-        history("/login");
+        const resp = await axios.post("http://localhost:8800/api/auth/register", user);
+        if (resp.data) {
+          localStorage.setItem("user", resp.data);
+          history("/login");
+        }
       } catch (err) {
         console.log(err);
       }
@@ -60,6 +86,7 @@ export default function Register() {
               ref={password}
               className="loginInput"
               type="password"
+              autoComplete="on"
               minLength="6"
             />
             <input
@@ -68,6 +95,7 @@ export default function Register() {
               ref={passwordAgain}
               className="loginInput"
               type="password"
+              autoComplete="on"
             />
             <button className="loginButton" type="submit">
               Sign Up

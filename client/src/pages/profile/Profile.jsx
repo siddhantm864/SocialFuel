@@ -28,6 +28,7 @@ export default function Profile() {
         <div className="profileRight">
           <div className="profileRightTop">
             <div className="profileCover">
+              {/* gfvjefibn */}
               <img
                 className="profileCoverImg"
                 src={user.coverPicture ? PF + user.coverPicture : PF + "person/noCover.png"}

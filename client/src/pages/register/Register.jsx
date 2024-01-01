@@ -45,7 +45,7 @@ export default function Register() {
         password: password.current.value,
       };
       try {
-        const resp = await axios.post("http://localhost:8800/api/auth/register", user);
+        const resp = await axios.post("https://social-fuel-server.vercel.app/api/auth/register", user);
         if (resp.data) {
           localStorage.setItem("user", resp.data);
           history("/login");

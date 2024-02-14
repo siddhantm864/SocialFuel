@@ -45,4 +45,8 @@
     ]
   },
   "proxy": "https://social-fuel-server.vercel.app/api"
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d9888670a3a08d18fc5a325d630381d2824664dc
